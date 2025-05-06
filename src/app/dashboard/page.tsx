@@ -1,9 +1,13 @@
 "use client";
 import { useState } from "react";
-import { CardFetch } from "../ui/cardFetch";
-import { Recipe, RecipesList } from "../ui/Recipe/RecipesList";
+import { Ingredient, Recipe, RecipesList } from "../ui/Recipe/recipe-list";
+import { CardFetch } from "../ui/card-fetch";
+import { usePathname } from "next/navigation";
+import { AddIngredient } from "../ui/Recipe/ingredient/add-ingredient";
 
 export default function Home() {
+  const pathname = usePathname();
+
   const [recipes, setRecipes] = useState<Recipe[]>([]);
 
   const handleUpdateRecipes = (data: Recipe[]) => {
@@ -11,8 +15,9 @@ export default function Home() {
   };
 
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <p>Test</p>
+    <div className="w-full h-full bg-gray-600 flex items-center  flex-col gap-3 border-2">
+      <p>Current pathname: {pathname}</p>
+      <AddIngredient />
       <CardFetch updateRecipe={handleUpdateRecipes} />
       {recipes && recipes.length > 0 && <RecipesList recipes={recipes} />}
     </div>

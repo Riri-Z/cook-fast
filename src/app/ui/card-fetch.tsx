@@ -1,21 +1,22 @@
 "use client";
 import { useState } from "react";
 import { Button } from "./button";
-import { Recipe } from "./Recipe/RecipesList";
+import { Recipe } from "./Recipe/recipe-list";
 
 type Props = {
   updateRecipe: (data: Recipe[]) => void;
+  ingredients: string[];
 };
 // TO rename
-export function CardFetch({ updateRecipe }: Props) {
-  //   const ingredients = ["tomatoes", "carrots"];
+export function CardFetch({ updateRecipe, ingredients }: Props) {
+  //
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
-  console.log("errorMsg", errorMsg);
+
   const handleFetchRecipes = async () => {
     setErrorMsg(null); // reset
 
     const params = new URLSearchParams({
-      ingredients: ["carrots", "tomatoes"].join(","),
+      ingredients: ingredients.join(","),
       number: "5",
     });
     const res = await fetch("api/recipes?" + params.toString());

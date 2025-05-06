@@ -1,4 +1,4 @@
-import { CardRecipe } from "./CardRecipe";
+import { CardRecipe } from "./card-recipe";
 
 export type Recipe = {
   id: number;

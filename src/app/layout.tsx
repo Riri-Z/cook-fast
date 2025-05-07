@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import { FoodProvider } from "@/components/food-provider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -24,10 +25,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased w-screen h-screen flex items-center justify-center `}>
-        {children}
-      </body>
+      <FoodProvider>
+        <body
+          className={`${geistSans.variable} ${geistMono.variable} antialiased w-screen h-screen flex items-center justify-center `}>
+          {children}
+        </body>
+      </FoodProvider>
     </html>
   );
 }

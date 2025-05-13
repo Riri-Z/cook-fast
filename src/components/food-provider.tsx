@@ -1,13 +1,13 @@
-"use client";
+'use client';
 
-import { Recipe } from "@/app/ui/Recipe/recipe-list";
+import { Recipe } from '@/app/ui/Recipe/recipe-list';
 import {
   createContext,
   useCallback,
   useContext,
   useMemo,
   useState,
-} from "react";
+} from 'react';
 
 type Context = {
   listIngredient: string[];
@@ -25,6 +25,8 @@ export const FoodProvider = ({ children }: { children: React.ReactNode }) => {
   const [recipes, setRecipes] = useState<Recipe[]>([]);
 
   const addIngredient = useCallback((ingredient: string) => {
+    if (ingredient == '') return;
+
     setListIngredient((prev) => [...prev, ingredient]);
   }, []);
 

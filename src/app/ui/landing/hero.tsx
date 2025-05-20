@@ -1,7 +1,14 @@
 import { ArrowRight, Utensils } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 import { Button } from '../button';
 
 export default function Hero() {
+  const router = useRouter();
+
+  const handleNavigate = () => {
+    return router.push('/ingredient');
+  };
+
   return (
     <section className="m-auto flex w-full flex-col items-center gap-5">
       {/* LOGO  */}
@@ -23,7 +30,10 @@ export default function Hero() {
               you already have at home.
             </p>
             <div className="card-actions justify-start">
-              <Button className="btn-secondary text-white flex items-center">
+              <Button
+                className="btn-secondary text-white flex items-center"
+                onClick={handleNavigate}
+              >
                 Start Now
                 <ArrowRight />
               </Button>

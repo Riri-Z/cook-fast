@@ -1,10 +1,17 @@
 import { ChefHat, Recycle, Salad } from 'lucide-react';
 import { useTheme } from 'next-themes';
+import { useRouter } from 'next/navigation';
 import { Button } from '../button';
 import FeatureCard from './feature-card';
 
 export default function FeatureContainer() {
+  const router = useRouter();
   const { theme } = useTheme();
+
+  const handleNavigateHome = () => {
+    return router.push('/ingredient');
+  };
+
   const CONTENT = [
     {
       title: 'Add Ingredients',
@@ -25,6 +32,7 @@ export default function FeatureContainer() {
       logo: <Recycle size={32} color={theme === 'dark' ? 'orange' : 'green'} />,
     },
   ];
+
   return (
     <main className="my-8 flex flex-col items-center gap-10">
       <h1 className="text-4xl font-bold">How It Works</h1>
@@ -41,7 +49,9 @@ export default function FeatureContainer() {
           );
         })}
       </div>
-      <Button className="btn-secondary text-white">Get started</Button>
+      <Button onClick={handleNavigateHome} className="btn-secondary text-white">
+        Get started
+      </Button>
     </main>
   );
 }

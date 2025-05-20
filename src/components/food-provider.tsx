@@ -1,6 +1,6 @@
 'use client';
 
-import { Recipe } from '@/app/ui/Recipe/recipe-list';
+import { Meal } from '@/app/lib/types';
 import {
   createContext,
   useCallback,
@@ -11,8 +11,8 @@ import {
 
 type Context = {
   listIngredient: string[];
-  recipes: Recipe[];
-  updateRecipes: (recipes: Recipe[]) => void;
+  recipes: Meal[];
+  updateRecipes: (recipes: Meal[]) => void;
   addIngredient: (ingredient: string) => void;
   deleteIngredient: (ingredient: string) => void;
   handleClearIngredients: () => void;
@@ -22,7 +22,7 @@ const FoodContext = createContext<Context>({} as Context);
 
 export const FoodProvider = ({ children }: { children: React.ReactNode }) => {
   const [listIngredient, setListIngredient] = useState<string[]>([]);
-  const [recipes, setRecipes] = useState<Recipe[]>([]);
+  const [recipes, setRecipes] = useState<Meal[]>([]);
 
   const addIngredient = useCallback((ingredient: string) => {
     if (ingredient == '') return;
@@ -38,7 +38,7 @@ export const FoodProvider = ({ children }: { children: React.ReactNode }) => {
     setListIngredient([]);
   };
 
-  const updateRecipes = useCallback((recipes: Recipe[]) => {
+  const updateRecipes = useCallback((recipes: Meal[]) => {
     setRecipes(recipes);
   }, []);
 

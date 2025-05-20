@@ -1,20 +1,136 @@
-import "server-only";
+import 'server-only';
+import { Meal } from './types';
+import { extractMatchingProperty } from './utils';
 
-const { API_URL, API_KEY_RECIPE } = process.env;
+const API_URL = process.env.API_URL;
 
-if (!API_URL || !API_KEY_RECIPE) {
-  throw new Error("Missing API_URL or API_KEY_RECIPE env variable");
-}
+type Params = {
+  recipes: Meal[];
+  ingredients: string[];
+};
+export async function getRecipes(ingredients: string[]): Promise<Meal[]> {
+  const constructUrl = (ingredient: string) =>
+    `https://${API_URL}i=${ingredient}`;
 
-export async function getRecipes(ingredients: string[], numberRecipes = 1) {
-  const query = `ingredients=${ingredients.join(",")}&number=${numberRecipes}`;
+  const urlArr = ingredients.map((ingredient) => constructUrl(ingredient));
 
-  const url = `${API_URL}/findByIngredients?apiKey=${API_KEY_RECIPE}&${query}`;
-  const res = await fetch(url);
+  const res: PromiseSettledResult<{
+    meals: Meal[];
+  }>[] = await Promise.allSettled(
+    urlArr.map((url) =>
+      fetch(url)
+        .then((r) => r.json())
+        .catch((e) => console.error('error url :', url, e))
+    )
+  );
 
-  if (!res.ok) {
-    throw new Error(`API request failed with status ${res.statusText}`);
+  // No result found
+  if (
+    res.length === 1 &&
+    res[0].status === 'fulfilled' &&
+    res[0]?.value?.meals === null
+  ) {
+    return [];
   }
 
-  return await res.json();
+  const okResult = res
+    .filter((promised) => promised.status === 'fulfilled')
+    .map((meal) => meal.value);
+
+  if (okResult.length === 0) {
+    return [];
+  }
+
+  const errorResult = res
+    .filter((promised) => promised.status === 'rejected')
+    .map((er) => er.reason);
+
+  if (errorResult.length > 0) {
+    console.log('errorResult', errorResult);
+  }
+
+  return await formatRecipeData(okResult[0].meals, ingredients);
+}
+
+/**
+ * Append  score, and format data for every recipe
+ * @param recipes
+ * @param ingredients
+ * @returns
+ */
+export async function formatRecipeData(
+  recipes: Params['recipes'],
+  ingredients: Params['ingredients']
+) {
+  // compute and append extra property for each meal
+  const recipeWithMatch = await Promise.allSettled(
+    recipes.map((recipe) => {
+      return computeExtraData(recipe, ingredients);
+    })
+  );
+
+  // Return availaible meal from recipeWithMatch
+  return recipeWithMatch
+    .filter((recipe) => recipe.status === 'fulfilled')
+    .map((e) => e.value);
+}
+
+/**
+ * Compute match, ingredients, measures and nbrMissingIngredients to a recipe
+ * @param meal
+ * @param ingredients
+ * @returns
+ */
+async function computeExtraData(meal: Meal, ingredients: string[]) {
+  const res = await fetch(
+    'https://www.themealdb.com/api/json/v1/1/lookup.php?i=' + meal.idMeal
+  );
+
+  if (!res.ok) {
+    throw new Error(`HTTP ${res.status} ${res.statusText}`);
+  }
+
+  const data = await res.json();
+  const recipe = data.meals?.[0];
+
+  if (!recipe) return meal;
+
+  // Append full recipe to meal
+  meal.recipe = recipe;
+
+  /**
+   * property from api  : strIngredient*
+   */
+  const matchingIngredient = 'strIngredient';
+
+  // List ingredients from dish
+  const mealIngredients = extractMatchingProperty(recipe, matchingIngredient);
+
+  // Append ingredients to meal
+  meal.ingredients = mealIngredients;
+  const formattedArrIngredientFromRecipe = mealIngredients.map((e: string) =>
+    e.trim().toLowerCase()
+  );
+
+  let countUsedIngredient = 0;
+  ingredients.forEach(
+    (e) => formattedArrIngredientFromRecipe.includes(e) && countUsedIngredient++
+  );
+
+  // Todo :  implement fuse.js for better matchig score ?
+  meal.match =
+    ingredients.length > 0
+      ? Math.round((countUsedIngredient / ingredients.length) * 100)
+      : 0;
+
+  // Append nbrMissingIngredients to meal
+  meal.nbrMissingIngredients = mealIngredients.length - countUsedIngredient;
+
+  const matchQuantityStr = 'strMeasure';
+  const measures = extractMatchingProperty(recipe, matchQuantityStr);
+
+  // Append measures to meal
+  meal.measures = measures;
+
+  return meal;
 }

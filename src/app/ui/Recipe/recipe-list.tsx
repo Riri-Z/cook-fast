@@ -1,17 +1,5 @@
-import { CardRecipe } from "./card-recipe";
-
-export type Recipe = {
-  id: number;
-  title: string;
-  image: string;
-  imageType: string;
-  usedIngredientCount: number;
-  missedIngredientCount: number;
-  usedIngredients: Ingredient[];
-  missedIngredients: Ingredient[];
-  unusedIngredients: Ingredient[];
-  likes: number;
-};
+import type { Meal } from '@/app/lib/types';
+import { CardRecipe } from './card-recipe';
 
 export type Ingredient = {
   id: number;
@@ -28,16 +16,23 @@ export type Ingredient = {
 };
 
 type Props = {
-  recipes: Recipe[];
+  recipes: Meal[];
 };
 
-export function RecipesList({ recipes }: Props) {
+export function RecipesList({ recipes }: Readonly<Props>) {
   return (
-    <div>
-      <h1>List des recettes </h1>
-      {recipes.map((recipe: Recipe) => {
-        return <CardRecipe key={recipe.id} recipe={recipe} />;
-      })}
+    <div className="flex  flex-col my-10 gap-2">
+      <h1 className="font-bold">List des recettes</h1>{' '}
+      <h1 className="font-bold">{recipes.length}</h1>
+      <div className="flex w-fit flex-wrap justify-center gap-2">
+        {recipes.length > 0 ? (
+          recipes.map((recipe: Meal) => {
+            return <CardRecipe key={recipe.idMeal} recipe={recipe} />;
+          })
+        ) : (
+          <h1 className="font-bold text-green-700">recipe no found</h1>
+        )}
+      </div>
     </div>
   );
 }

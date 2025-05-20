@@ -1,4 +1,5 @@
 import { FoodProvider } from '@/components/food-provider';
+import Header from '@/components/header';
 import type { Metadata } from 'next';
 import { ThemeProvider } from 'next-themes';
 import './globals.css';
@@ -17,7 +18,10 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <FoodProvider>
         <body>
-          <ThemeProvider>{children}</ThemeProvider>
+          <ThemeProvider>
+            <Header />
+            {children}
+          </ThemeProvider>
         </body>
       </FoodProvider>
     </html>

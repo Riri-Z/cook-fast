@@ -28,9 +28,9 @@ export default function ToggleTheme() {
     <label className="swap swap-rotate">
       <input type="checkbox" checked={checked} onChange={handleToggleTheme} />
 
-      <Sun className="swap-on" />
+      <Sun className="swap-on" color="black" />
 
-      <Moon className="swap-off" />
+      <Moon className="swap-off" color="orange" />
     </label>
   );
 }

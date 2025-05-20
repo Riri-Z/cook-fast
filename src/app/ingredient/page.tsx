@@ -19,12 +19,9 @@ export default function Page() {
 
         <AddIngredient />
       </div>
-      {recipes.length > 0 ? (
-        <RecipesList recipes={recipes} />
-      ) : (
-        // DIsplay this if user has tried to fetch recipe, and api returned any
-        <p>Empty recipe</p>
-      )}
+     {/* TODo : hasFetchRecipe  à mettre dans le context ?  */}
+        <RecipesList recipes={recipes} hasFetchRecipe={false} />
+      
       <Footer>
         <FetchRecipes />
       </Footer>

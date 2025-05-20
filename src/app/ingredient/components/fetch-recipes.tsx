@@ -1,0 +1,55 @@
+'use client';
+
+import { Button } from '@/app/ui/button';
+import { useFood } from '@/components/food-provider';
+import { ChefHat } from 'lucide-react';
+import { useState } from 'react';
+
+export default function FetchRecipes() {
+  const { listIngredient, updateRecipes } = useFood();
+  const nbrIngredient = listIngredient.length;
+
+  const [loading, setloading] = useState(false);
+  const handleFetchRecipes = async () => {
+    try {
+      setloading(true);
+      const params = new URLSearchParams({
+        ingredients:
+          nbrIngredient > 0 ? listIngredient.join(',') : listIngredient[0],
+      });
+      const res = await fetch('api/recipes?' + params.toString());
+
+      if (!res.ok) {
+        // On récupère le message JSON renvoyé par le route handler
+        const { message } = await res.json();
+        console.error(message);
+      }
+
+      const data = await res.json();
+      console.log('data', data);
+      updateRecipes(data);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setloading(false);
+    }
+  };
+
+  return (
+    <Button
+      disabled={listIngredient.length === 0}
+      className="btn-secondary rounded-3xl text-white h-16 w-80 flex"
+      onClick={handleFetchRecipes}
+    >
+      {loading ? (
+        <span className="loading loading-spinner loading-md"></span>
+      ) : (
+        <ChefHat />
+      )}
+      <p>Generate recipes</p>
+      {nbrIngredient > 0 && (
+        <div className="badge h-5 badge-ghost">{nbrIngredient} ingredients</div>
+      )}
+    </Button>
+  );
+}

@@ -16,14 +16,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <FoodProvider>
-        <body>
+      <body>
+        <FoodProvider>
           <ThemeProvider>
             <Header />
             {children}
           </ThemeProvider>
-        </body>
-      </FoodProvider>
+        </FoodProvider>
+      </body>
     </html>
   );
 }

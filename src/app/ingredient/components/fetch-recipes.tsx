@@ -6,7 +6,7 @@ import { ChefHat } from 'lucide-react';
 import { useState } from 'react';
 
 export default function FetchRecipes() {
-  const { listIngredient, updateRecipes } = useFood();
+  const { listIngredient, updateRecipes, updateHasSearched } = useFood();
   const nbrIngredient = listIngredient.length;
 
   const [loading, setloading] = useState(false);
@@ -26,8 +26,8 @@ export default function FetchRecipes() {
       }
 
       const data = await res.json();
-      console.log('data', data);
       updateRecipes(data);
+      updateHasSearched(true);
     } catch (error) {
       console.error(error);
     } finally {

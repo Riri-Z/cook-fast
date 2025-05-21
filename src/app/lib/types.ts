@@ -90,9 +90,10 @@ export type Meal = {
   strMeal: string;
   strMealThumb: string;
   idMeal: string;
-  recipe?: RecipeDetail | null;
+  recipeDetail?: RecipeDetail | null;
   ingredients?: string[];
   measures?: string[];
   match?: number;
   nbrMissingIngredients?: number;
+  userIngredientPresent?: string[];
 };

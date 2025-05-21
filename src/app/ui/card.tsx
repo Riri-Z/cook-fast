@@ -25,12 +25,10 @@ export default function Card({
         className
       )}
     >
-   
       <figure>
         {figureSrc && (
           <Image src={figureSrc} alt={altFigure} width={450} height={300} />
         )}
-     
       </figure>
       <div className="card-body">
         <h2 className="card-title">{title}</h2>

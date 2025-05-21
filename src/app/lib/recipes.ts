@@ -34,12 +34,28 @@ export async function getRecipes(ingredients: string[]): Promise<Meal[]> {
   }
 
   const okResult = res
-    .filter((promised) => promised.status === 'fulfilled')
+    .filter(
+      // Type predicate to inform TS that is a PromiseFulfilledResult
+      (promised): promised is PromiseFulfilledResult<{ meals: Meal[] }> =>
+        promised.status === 'fulfilled' && promised.value.meals !== null
+    )
     .map((meal) => meal.value);
 
   if (okResult.length === 0) {
     return [];
   }
+
+  /* 
+  
+    cas multi ingredients : 
+       tests, eggs , tomatos  
+
+       pour chaque ingredients j'ai des recettes, 
+       croise les resultats pour afficher en premier les recettes qui inclus le max d'ingredients
+       ou juste afficher par recettes les ingredients manquants que l'user a renseigner
+  
+  
+  */
 
   const errorResult = res
     .filter((promised) => promised.status === 'rejected')
@@ -96,7 +112,7 @@ async function computeExtraData(meal: Meal, ingredients: string[]) {
   if (!recipe) return meal;
 
   // Append full recipe to meal
-  meal.recipe = recipe;
+  meal.recipeDetail = recipe;
 
   /**
    * property from api  : strIngredient*
@@ -113,9 +129,16 @@ async function computeExtraData(meal: Meal, ingredients: string[]) {
   );
 
   let countUsedIngredient = 0;
-  ingredients.forEach(
-    (e) => formattedArrIngredientFromRecipe.includes(e) && countUsedIngredient++
-  );
+  const arrUserIngredientInRecipe = [];
+
+  for (const ingredient of ingredients) {
+    if (formattedArrIngredientFromRecipe.includes(ingredient)) {
+      countUsedIngredient++;
+      arrUserIngredientInRecipe.push(ingredient);
+    }
+  }
+
+  meal.userIngredientPresent = arrUserIngredientInRecipe;
 
   // Todo :  implement fuse.js for better matchig score ?
   meal.match =

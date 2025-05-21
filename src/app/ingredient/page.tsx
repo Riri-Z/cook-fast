@@ -7,7 +7,8 @@ import FetchRecipes from './components/fetch-recipes';
 import Footer from './components/footer';
 
 export default function Page() {
-  const { recipes } = useFood();
+  const { recipes, hasSearched } = useFood();
+
   return (
     <div className=" flex  flex-col   items-center  bg-[url('/food.jpg')] bg-cover h-[calc(100dvh-var(--header-height))] overflow-auto">
       <div className="card bg-base-100 max-w-[550px] rounded-2xl shadow-lg h-fit flex flex-col  gap-5 mt-10 p-5">
@@ -19,12 +20,7 @@ export default function Page() {
 
         <AddIngredient />
       </div>
-      {recipes.length > 0 ? (
-        <RecipesList recipes={recipes} />
-      ) : (
-        // DIsplay this if user has tried to fetch recipe, and api returned any
-        <p>Empty recipe</p>
-      )}
+      {hasSearched && <RecipesList recipes={recipes} />}
       <Footer>
         <FetchRecipes />
       </Footer>

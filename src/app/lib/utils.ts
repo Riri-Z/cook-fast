@@ -6,5 +6,5 @@ export function extractMatchingProperty(
 
   return Object.entries(data)
     .filter(([key, val]) => key.includes(matchingStr) && val.trim() !== '')
-    .map(([_key, val]) => val);
+    .map(([, val]) => val);
 }

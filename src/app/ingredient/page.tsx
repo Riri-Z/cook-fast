@@ -2066,13 +2066,8 @@ export default function Page() {
   const { recipes, hasSearched } = useFood();
 
   return (
-    <div
-      className=" flex  flex-col   items-center
-   
-    
-    bg-[url('/food.jpg')] bg-cover h-[calc(100dvh-var(--header-height))]  overflow-auto"
-    >
-      <div className="card   bg-base-100 max-w-[550px] rounded-2xl shadow-lg h-fit flex flex-col  gap-5 m-4  p-3">
+    <div className="items-center bg-[url('/food.jpg')] bg-cover h-[calc(100dvh-var(--header-height))]   flex  flex-col  overflow-auto">
+      <div className="card bg-base-100 max-w-[550px] rounded-2xl shadow-lg h-fit flex flex-col  gap-5 m-4  p-3">
         <h1 className="font-bold text-4xl ">My Pantry</h1>
         <p className="">
           Add ingredients you already have and we&#39;ll find recipes that
@@ -2080,6 +2075,9 @@ export default function Page() {
         </p>
         <AddIngredient />
       </div>
+      {/* 
+   TODO :  display carousel recipe  on desktop, display grid / flex  on mobile. Delegate logic to RecipeList
+   */}{' '}
       {hasSearched && <Carousel elements={elements} />}
       {/*       {hasSearched && <RecipesList recipes={recipes}/> }
        */}{' '}

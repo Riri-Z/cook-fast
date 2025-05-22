@@ -25,18 +25,14 @@ export function CardRecipe({ recipe }: Readonly<{ recipe: Meal }>) {
   const tags = recipeDetail?.strTags?.split(',') ?? [];
 
   return (
-    <div
-      className="card w-72 hover:cursor-pointer
-
-  shadow-xl bg-base-100 rounded-4xl"
-    >
+    <div className="card w-72 hover:cursor-pointer bg-base-100 rounded-4xl">
       <figure>
-        <img src={strMealThumb} alt={strMeal} className="h-64  w-full " />
+        <img src={strMealThumb} alt={strMeal} className="h-64  w-full" />
       </figure>
 
-      <div className="card-body p-4 flex ">
+      <div className="card-body shadow-none p-4 flex">
         <section className="flex gap-2 align-middle  items-center">
-          <h1 className="card-title h-4">{strMeal}</h1>
+          <h1 className="card-title h-4 leading-none my-2">{strMeal}</h1>
           {recipeDetail?.strCategory && (
             <div className="badge badge-info align-middle">
               {recipeDetail.strCategory}
@@ -44,20 +40,18 @@ export function CardRecipe({ recipe }: Readonly<{ recipe: Meal }>) {
           )}
         </section>
 
-        <div className="">
-          {userIngredientPresent && nbrMissingIngredients && (
-            <p className=" font-semibold">
-              {userIngredientPresent?.length} matching ingredient out of{' '}
-              {userIngredientPresent.length + nbrMissingIngredients} ({match} %)
-            </p>
-          )}
-          <progress
-            className="progress progress-warning"
-            value={match}
-            max="100"
-            aria-label={`${match} % matching ingredients`}
-          />
-        </div>
+        {userIngredientPresent && nbrMissingIngredients && (
+          <p className=" font-semibold">
+            {userIngredientPresent?.length} matching ingredient out of{' '}
+            {userIngredientPresent.length + nbrMissingIngredients} ({match} %)
+          </p>
+        )}
+        <progress
+          className="progress progress-warning"
+          value={match}
+          max="100"
+          aria-label={`${match} % matching ingredients`}
+        />
 
         <section className="flex flex-col gap-2">
           <p className="text-success font-semibold">You already have :</p>
@@ -68,7 +62,7 @@ export function CardRecipe({ recipe }: Readonly<{ recipe: Meal }>) {
         </section>
 
         {/*    <section>
-          <p className="text-error font-semibold ">
+          <p className="text-error font-semibold">
             ❌ Missing:{' '}
             <span className="font-bold">
               {nbrMissingIngredients} ingredients
@@ -79,7 +73,7 @@ export function CardRecipe({ recipe }: Readonly<{ recipe: Meal }>) {
           <h1>🏷️ Tags</h1>
           {tags && <TagsRecipe tags={tags} variant="badge-secondary" />}
         </section>
-        <Button className="btn-success mt-auto   w-full align-bottom ">
+        <Button className="btn-success mt-auto   w-full align-bottom">
           <p>View full recipe</p>
         </Button>
       </div>

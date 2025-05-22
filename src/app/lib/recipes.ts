@@ -143,7 +143,7 @@ async function computeExtraData(meal: Meal, ingredients: string[]) {
   // Todo :  implement fuse.js for better matchig score ?
   meal.match =
     ingredients.length > 0
-      ? Math.round((countUsedIngredient / ingredients.length) * 100)
+      ? Math.round((countUsedIngredient / mealIngredients.length) * 100)
       : 0;
 
   // Append nbrMissingIngredients to meal

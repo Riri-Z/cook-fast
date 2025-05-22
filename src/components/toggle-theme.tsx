@@ -25,8 +25,14 @@ export default function ToggleTheme() {
   };
 
   return (
-    <label className="swap swap-rotate">
-      <input type="checkbox" checked={checked} onChange={handleToggleTheme} />
+    <label className="swap swap-rotate" title="checkbox">
+      <input
+        aria-label="Toggle theme"
+        title="Toggle theme"
+        type="checkbox"
+        checked={checked}
+        onChange={handleToggleTheme}
+      />
 
       <Sun className="swap-on" color="black" />
 

@@ -20,7 +20,7 @@ type Props = {
 };
 
 export function RecipesList({ recipes }: Readonly<Props>) {
-  console.log('recipes', recipes[1]);
+  console.log('recipes', recipes);
   return (
     <div className="flex  flex-col my-10 gap-2">
       {/* <h1 className="text-white font-bold">List des recettes</h1> */}

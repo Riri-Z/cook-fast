@@ -13,6 +13,7 @@ export default function Header() {
     <div className="sticky bg-transparent top-0 right-0 left-0 z-999 flex h-[var(--header-height)] w-full justify-between px-8 align-middle backdrop-blur-xs">
       <button
         onClick={handleReturnHome}
+        type="button"
         className=" cursor-pointer flex h-10 items-center justify-center gap-2 self-center"
       >
         <Utensils className="text-amber-600"></Utensils>

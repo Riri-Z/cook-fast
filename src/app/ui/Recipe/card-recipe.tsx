@@ -22,21 +22,21 @@ export function CardRecipe({ recipe }: Readonly<{ recipe: Meal }>) {
      match?  
      filter
  */
-
   const tags = recipeDetail?.strTags?.split(',') ?? [];
+
   return (
-    <div className="card w-80  shadow-xl bg-base-100 rounded-4xl">
+    <div
+      className="card w-72 hover:cursor-pointer
+
+  shadow-xl bg-base-100 rounded-4xl"
+    >
       <figure>
-        <img
-          src={strMealThumb}
-          alt={strMeal}
-          className="h-64  w-full object-cover"
-        />
+        <img src={strMealThumb} alt={strMeal} className="h-64  w-full " />
       </figure>
 
-      <div className="card-body flex gap-2">
+      <div className="card-body p-4 flex ">
         <section className="flex gap-2 align-middle  items-center">
-          <h1 className="card-title ">{strMeal}</h1>
+          <h1 className="card-title h-4">{strMeal}</h1>
           {recipeDetail?.strCategory && (
             <div className="badge badge-info align-middle">
               {recipeDetail.strCategory}
@@ -44,45 +44,40 @@ export function CardRecipe({ recipe }: Readonly<{ recipe: Meal }>) {
           )}
         </section>
 
-        <div className="mt-2">
+        <div className="">
           {userIngredientPresent && nbrMissingIngredients && (
             <p className=" font-semibold">
               {userIngredientPresent?.length} matching ingredient out of{' '}
-              {userIngredientPresent.length + nbrMissingIngredients}
+              {userIngredientPresent.length + nbrMissingIngredients} ({match} %)
             </p>
           )}
           <progress
             className="progress progress-warning"
             value={match}
             max="100"
+            aria-label={`${match} % matching ingredients`}
           />
-          <p className="text-sm text-warning font-semibold">{match} %</p>
         </div>
 
         <section className="flex flex-col gap-2">
-          <p className="text-success font-semibold"> You already have:</p>
-          <div className="flex gap-2">
-            {userIngredientPresent &&
-              userIngredientPresent.length > 0 &&
-              userIngredientPresent.map((e) => (
-                <div
-                  key={e}
-                  className="badge badge-outline badge-primary flex justify-center align-middle"
-                >
-                  <p>{e}</p>
-                </div>
-              ))}
-          </div>
+          <p className="text-success font-semibold">You already have :</p>
 
-          <p className="text-error font-semibold mt-2">
+          {userIngredientPresent && userIngredientPresent.length > 0 && (
+            <TagsRecipe tags={userIngredientPresent} />
+          )}
+        </section>
+
+        {/*    <section>
+          <p className="text-error font-semibold ">
             ❌ Missing:{' '}
             <span className="font-bold">
               {nbrMissingIngredients} ingredients
             </span>
           </p>
-
+        </section> */}
+        <section className="flex gap-2  flex-col">
           <h1>🏷️ Tags</h1>
-          {tags && <TagsRecipe tags={tags} />}
+          {tags && <TagsRecipe tags={tags} variant="badge-secondary" />}
         </section>
         <Button className="btn-success mt-auto   w-full align-bottom ">
           <p>View full recipe</p>

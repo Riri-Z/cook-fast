@@ -6,7 +6,7 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 
 export function Button({ children, className, ...rest }: ButtonProps) {
   return (
-    <button {...rest} className={clsx('btn', className)}>
+    <button type="button" {...rest} className={clsx('btn', className)}>
       {children}
     </button>
   );

@@ -88,7 +88,8 @@ export async function formatRecipeData(
   // Return availaible meal from recipeWithMatch
   return recipeWithMatch
     .filter((recipe) => recipe.status === 'fulfilled')
-    .map((e) => e.value);
+    .map((e) => e.value)
+    .sort((a, b) => (b.match ?? 0) - (a.match ?? 0));
 }
 
 /**

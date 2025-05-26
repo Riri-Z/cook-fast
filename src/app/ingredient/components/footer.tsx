@@ -1,6 +1,6 @@
 export default function Footer({ children }: { children: React.ReactNode }) {
   return (
-    <div className="fixed bg-transparent bottom-0    w-full h-20 flex justify-center  items-center">
+    <div className="fixed bottom-0 flex h-20 w-full items-center justify-center bg-transparent">
       {children}
     </div>
   );

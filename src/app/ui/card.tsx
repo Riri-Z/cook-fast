@@ -1,5 +1,4 @@
 import clsx from 'clsx';
-import Image from 'next/image';
 import { ReactNode } from 'react';
 
 type Card = {
@@ -25,11 +24,11 @@ export default function Card({
         className
       )}
     >
-      <figure>
-        {figureSrc && (
-          <Image src={figureSrc} alt={altFigure} width={450} height={300} />
-        )}
-      </figure>
+      {figureSrc && (
+        <picture>
+          <img src={figureSrc} alt={altFigure} width={450} height={300} />
+        </picture>
+      )}
       <div className="card-body">
         <h2 className="card-title">{title}</h2>
         <p>{description}</p>

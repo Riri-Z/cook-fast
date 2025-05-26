@@ -1,62 +1,47 @@
 import { Meal } from '@/app/lib/types';
 import { CardRecipe } from '@/app/ui/Recipe/card-recipe';
-import { CircleArrowLeft, CircleArrowRight } from 'lucide-react';
 import { useMemo, useState } from 'react';
+import { ArrowIcon } from './arrowIcon';
 
-export default function Carousel({ elements }: { elements: Meal[] }) {
-  const pageSize = 5;
+export default function Carousel({ elements }: Readonly<{ elements: Meal[] }>) {
+  const recipeSize = 4;
   const [page, setPage] = useState(0);
 
   const totalPage = Math.ceil(elements.length / 5);
 
   const currRecipe = useMemo(() => {
-    const start = pageSize * page;
-    const end = start + 5;
+    const start = recipeSize * page;
+    const end = start + recipeSize;
     return elements.slice(start, end);
   }, [page, elements]);
 
   function handlePrev() {
+    if (page === 0) return;
     setPage((prev) => Math.max(0, prev - 1));
   }
   function handleNext() {
+    if (page === totalPage - 1) return;
+
     setPage((prev) => Math.min(totalPage, prev + 1));
   }
 
   return (
-    <div className="carousel rounded-box gap-2 items-center">
-      {page > 0 && (
-        <button
-          className="rounded-4xl bg-secondary  border-0 shadow-none"
-          disabled={page === 0}
-          onClick={handlePrev}
-        >
-          <CircleArrowLeft size={32} color="black" />
-        </button>
-      )}
-
-      {/*  gray out button if disabled */}
+    <div className="carousel rounded-box m-2 items-center gap-2">
+      <ArrowIcon direction="left" handler={handlePrev} disabled={page === 0} />
 
       {currRecipe.map((recipe) => (
         <Item key={recipe.idMeal} recipe={recipe}></Item>
       ))}
 
-      {page < totalPage - 1 && (
-        <button
-          className="rounded-4xl bg-secondary border-0 shadow-none"
-          disabled={page === totalPage - 1}
-          onClick={handleNext}
-        >
-          <CircleArrowRight size={32} />
-        </button>
-      )}
+      <ArrowIcon
+        direction="right"
+        handler={handleNext}
+        disabled={page === totalPage - 1}
+      />
     </div>
   );
 }
 
-function Item({ recipe }: { recipe: Meal }) {
-  return (
-    <div className="carousel-item">
-      <CardRecipe key={recipe.idMeal} recipe={recipe} />
-    </div>
-  );
+function Item({ recipe }: Readonly<{ recipe: Meal }>) {
+  return <CardRecipe key={recipe.idMeal} recipe={recipe} />;
 }

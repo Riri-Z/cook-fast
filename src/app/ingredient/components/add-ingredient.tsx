@@ -28,7 +28,7 @@ export function AddIngredient() {
 
   return (
     <>
-      <section className="flex w-[500px] justify-between gap-2">
+      <section className="flex max-w-full justify-between gap-2">
         <input
           className="input w-full"
           name="ingredient"

@@ -31,7 +31,7 @@ export default function Hero() {
             </p>
             <div className="card-actions justify-start">
               <Button
-                className="btn-secondary text-white flex items-center"
+                className="btn-secondary flex items-center text-white"
                 onClick={handleNavigate}
               >
                 Start Now

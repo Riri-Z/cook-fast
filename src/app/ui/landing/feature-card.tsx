@@ -15,14 +15,13 @@ export default function FeatureCard({
   return (
     <div
       key={id}
-      className="card border-2  shadow-xl
-   overflow-hidden relative flex w-72 "
+      className="card relative flex w-72 overflow-hidden border-2 shadow-xl"
     >
-      <span className="rounded-full bg-secondary opacity-65  w-16  h-16 flex justify-center items-center absolute -top-4 -right-4">
+      <span className="bg-secondary absolute -top-4 -right-4 flex h-16 w-16 items-center justify-center rounded-full opacity-65">
         <p className="text-xl font-bold text-white">{id}</p>
       </span>
       <div className="card-body align-middle">
-        <span className="self-center ">{logo}</span>
+        <span className="self-center">{logo}</span>
         <h2 className="card-title self-center">{title}</h2>
         <p className="text-center">{description}</p>
       </div>

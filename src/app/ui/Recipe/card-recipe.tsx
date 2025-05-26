@@ -1,12 +1,10 @@
 'use client';
 
 import { Meal } from '@/app/lib/types';
-import { useFood } from '@/components/food-provider';
 import { Button } from '../button';
 import TagsRecipe from './tags-recipe';
 
 export function CardRecipe({ recipe }: Readonly<{ recipe: Meal }>) {
-  const { listIngredient } = useFood();
   const {
     recipeDetail,
     userIngredientPresent,
@@ -15,24 +13,23 @@ export function CardRecipe({ recipe }: Readonly<{ recipe: Meal }>) {
     strMeal,
     match,
   } = recipe;
-  /* 
-    TODO :  
-     TIme ? 
-     difficulty?  
-     match?  
-     filter
- */
+
+  // Transform string tags to array of tags
   const tags = recipeDetail?.strTags?.split(',') ?? [];
 
   return (
-    <div className="card w-72 hover:cursor-pointer bg-base-100 rounded-4xl">
-      <figure>
-        <img src={strMealThumb} alt={strMeal} className="h-64  w-full" />
-      </figure>
+    <div className="card bg-base-100 w-full rounded-4xl transition-transform duration-300 ease-out hover:translate-y-[-4px] hover:cursor-pointer sm:w-[280px]">
+      <picture>
+        <img
+          src={strMealThumb}
+          alt={strMeal}
+          className="h-52 w-full rounded-4xl bg-center"
+        />
+      </picture>
 
-      <div className="card-body shadow-none p-4 flex">
-        <section className="flex gap-2 align-middle  items-center">
-          <h1 className="card-title h-4 leading-none my-2">{strMeal}</h1>
+      <div className="card-body flex p-4 shadow-none">
+        <section className="flex items-center gap-2 align-middle">
+          <h1 className="card-title my-2 h-4 leading-none">{strMeal}</h1>
           {recipeDetail?.strCategory && (
             <div className="badge badge-info align-middle">
               {recipeDetail.strCategory}
@@ -41,7 +38,7 @@ export function CardRecipe({ recipe }: Readonly<{ recipe: Meal }>) {
         </section>
 
         {userIngredientPresent && nbrMissingIngredients && (
-          <p className=" font-semibold">
+          <p className="font-semibold">
             {userIngredientPresent?.length} matching ingredient out of{' '}
             {userIngredientPresent.length + nbrMissingIngredients} ({match} %)
           </p>
@@ -61,19 +58,19 @@ export function CardRecipe({ recipe }: Readonly<{ recipe: Meal }>) {
           )}
         </section>
 
-        {/*    <section>
+        <section>
           <p className="text-error font-semibold">
             ❌ Missing:{' '}
             <span className="font-bold">
               {nbrMissingIngredients} ingredients
             </span>
           </p>
-        </section> */}
-        <section className="flex gap-2  flex-col">
+        </section>
+        <section className="flex flex-col gap-2">
           <h1>🏷️ Tags</h1>
           {tags && <TagsRecipe tags={tags} variant="badge-secondary" />}
         </section>
-        <Button className="btn-success mt-auto   w-full align-bottom">
+        <Button className="btn-success mt-auto w-full align-bottom">
           <p>View full recipe</p>
         </Button>
       </div>

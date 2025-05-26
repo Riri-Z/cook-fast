@@ -13,7 +13,7 @@ export function Logo() {
     <div>
       <button
         onClick={handleReturnHome}
-        className=" cursor-pointer flex h-10 items-center justify-center gap-2 self-center"
+        className="flex h-10 cursor-pointer items-center justify-center gap-2 self-center"
       >
         <Utensils className="text-amber-600"></Utensils>
 

@@ -9,7 +9,7 @@ type Props = {
 export function TagIngredient({ value, action }: Readonly<Props>) {
   return (
     <Button
-      className="flex justify-around h-fit py-1  w-fit rounded-4xl bg-accent text-white"
+      className="bg-accent flex h-fit w-fit justify-around rounded-4xl py-1 text-white"
       onClick={() => action(value)}
     >
       <p>{value}</p>

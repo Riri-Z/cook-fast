@@ -89,10 +89,13 @@ export interface RecipeDetail {
 export type Meal = {
   strMeal: string;
   strMealThumb: string;
+  strInstructions: string;
   idMeal: string;
-  recipe?: RecipeDetail | null;
+  recipeDetail?: RecipeDetail | null;
   ingredients?: string[];
   measures?: string[];
   match?: number;
   nbrMissingIngredients?: number;
+  userIngredientPresent?: string[];
+  strYoutube: string;
 };

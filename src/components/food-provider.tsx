@@ -12,10 +12,14 @@ import {
 type Context = {
   listIngredient: string[];
   recipes: Meal[];
+  loading: boolean;
+  hasSearched: boolean;
   updateRecipes: (recipes: Meal[]) => void;
   addIngredient: (ingredient: string) => void;
   deleteIngredient: (ingredient: string) => void;
   handleClearIngredients: () => void;
+  updateLoading: (value: boolean) => void;
+  updateHasSearched: (value: boolean) => void;
 };
 
 const FoodContext = createContext<Context>({} as Context);
@@ -23,6 +27,8 @@ const FoodContext = createContext<Context>({} as Context);
 export const FoodProvider = ({ children }: { children: React.ReactNode }) => {
   const [listIngredient, setListIngredient] = useState<string[]>([]);
   const [recipes, setRecipes] = useState<Meal[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [hasSearched, setHasSearched] = useState<boolean>(false);
 
   const addIngredient = useCallback((ingredient: string) => {
     if (ingredient == '') return;
@@ -42,6 +48,14 @@ export const FoodProvider = ({ children }: { children: React.ReactNode }) => {
     setRecipes(recipes);
   }, []);
 
+  const updateHasSearched = useCallback((value: boolean) => {
+    setHasSearched(value);
+  }, []);
+
+  const updateLoading = useCallback((value: boolean) => {
+    setLoading(value);
+  }, []);
+
   // Memoise fn and values to prevent rerender
   const value = useMemo(() => {
     return {
@@ -51,8 +65,22 @@ export const FoodProvider = ({ children }: { children: React.ReactNode }) => {
       addIngredient,
       deleteIngredient,
       handleClearIngredients,
+      loading,
+      hasSearched,
+      updateLoading,
+      updateHasSearched,
     };
-  }, [listIngredient, recipes, updateRecipes, addIngredient, deleteIngredient]);
+  }, [
+    listIngredient,
+    recipes,
+    updateRecipes,
+    addIngredient,
+    deleteIngredient,
+    hasSearched,
+    loading,
+    updateLoading,
+    updateHasSearched,
+  ]);
 
   return <FoodContext.Provider value={value}>{children}</FoodContext.Provider>;
 };

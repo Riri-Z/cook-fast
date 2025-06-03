@@ -1,49 +1,93 @@
+'use client';
+
 import { Meal } from '@/app/lib/types';
-import { useFood } from '@/components/food-provider';
+import { redirect } from 'next/navigation';
 import { Button } from '../button';
+import TagsRecipe from './tags-recipe';
+import { useMemo } from 'react';
 
 export function CardRecipe({ recipe }: Readonly<{ recipe: Meal }>) {
-  const { listIngredient } = useFood();
+  const {
+    recipeDetail,
+    userIngredientPresent,
+    nbrMissingIngredients,
+    ingredients,
+    strMealThumb,
+    strMeal,
+    match,
+  } = recipe;
+  // Transform string tags to array of tags
+  const tags = recipeDetail?.strTags?.split(',') ?? [];
+  const formatIngredientsName = useMemo(() => {
+    return ingredients?.join(', ').toLowerCase();
+  }, [ingredients]);
 
-  /* 
-    TODO :  
-     TIme ? 
-     difficulty?  
-     match?  
-     filter
- */
+  const handleRedirectToRecipe = () => {
+    return redirect('/recipe/' + recipe.idMeal);
+  };
+
   return (
-    <div className="items-start bg-base-100 rounded-2xl flex flex-col">
-      <img
-        className="rounded-t-2xl"
-        src={recipe.strMealThumb}
-        alt={recipe.strMeal}
-        width={350}
-        height={350}
-      />
+    <div className="card bg-base-100 w-full cursor-pointer rounded-4xl transition-transform duration-300 ease-out hover:translate-y-[-4px] sm:w-[280px]">
+      <picture>
+        <img
+          src={strMealThumb}
+          alt={strMeal}
+          className="h-52 w-full rounded-4xl bg-center"
+        />
+      </picture>
 
-      <div className="flex flex-col m-2 gap-4 w-4/5 ">
-        <h1 className="font-extrabold">{recipe.strMeal}</h1>
-        <p className="font-bold">Match ingredients: {recipe.match} %</p>
-        <progress
-          className="progress progress-warning "
-          value={recipe.match}
-          max="100"
-        ></progress>
-        <section className="flex flex-col gap-2">
-          You already have :
-          <div className="flex gap-2">
-            {listIngredient.length > 0 &&
-              listIngredient.map((e) => (
-                <div key={e} className="badge badge-soft badge-accent">
-                  {e}
-                </div>
-              ))}
-          </div>
-          <p>And need {recipe.nbrMissingIngredients} more ingredients</p>
+      <div className="card-body flex p-4 shadow-none">
+        <section className="flex items-center justify-between gap-2">
+          <h1 className="card-title my-2 h-fit truncate text-lg font-bold">
+            {strMeal}
+          </h1>
+          {recipeDetail?.strCategory && (
+            <div className="badge badge-info">{recipeDetail.strCategory}</div>
+          )}
         </section>
+
+        {userIngredientPresent && nbrMissingIngredients && (
+          <p className="font-semibold">
+            {userIngredientPresent?.length} matching ingredient out of{' '}
+            {userIngredientPresent.length + nbrMissingIngredients} ({match} %)
+          </p>
+        )}
+        <progress
+          className="progress progress-warning"
+          value={match}
+          max="100"
+          aria-label={`${match} % matching ingredients`}
+        />
+
+        <section className="flex flex-col gap-2">
+          <p className="text-success font-semibold">You already have :</p>
+
+          {userIngredientPresent && userIngredientPresent.length > 0 && (
+            <TagsRecipe tags={userIngredientPresent} />
+          )}
+        </section>
+
+        <section>
+          <div className="tooltip" data-tip={formatIngredientsName}>
+            <p className="text-error font-semibold">
+              ❌ Missing :{' '}
+              <span className="font-bold">
+                {nbrMissingIngredients} ingredients
+              </span>
+            </p>
+          </div>
+        </section>
+        <section className="flex max-w-full flex-col gap-2">
+          <h1>🏷️ Tags</h1>
+          {tags && <TagsRecipe tags={tags} variant="badge-secondary" />}
+        </section>
+        <Button
+          className="btn-success mt-auto w-full align-bottom"
+          onClick={handleRedirectToRecipe}
+        >
+          <p>View full recipe</p>
+        </Button>
       </div>
-      <Button className="btn-primary w-full">View full RecipeDetail</Button>
     </div>
   );
 }

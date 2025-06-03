@@ -6,7 +6,7 @@ import { ChefHat } from 'lucide-react';
 import { useState } from 'react';
 
 export default function FetchRecipes() {
-  const { listIngredient, updateRecipes } = useFood();
+  const { listIngredient, updateRecipes, updateHasSearched } = useFood();
   const nbrIngredient = listIngredient.length;
 
   const [loading, setloading] = useState(false);
@@ -28,6 +28,7 @@ export default function FetchRecipes() {
       const data = await res.json();
       console.log('data', data);
       updateRecipes(data);
+      updateHasSearched(true);
     } catch (error) {
       console.error(error);
     } finally {
@@ -38,7 +39,7 @@ export default function FetchRecipes() {
   return (
     <Button
       disabled={listIngredient.length === 0}
-      className="btn-secondary rounded-3xl text-white h-16 w-80 flex"
+      className="btn-secondary flex w-full self-center rounded-3xl text-white"
       onClick={handleFetchRecipes}
     >
       {loading ? (
@@ -46,9 +47,9 @@ export default function FetchRecipes() {
       ) : (
         <ChefHat />
       )}
-      <p>Generate recipes</p>
+      <p className="">Generate recipes</p>
       {nbrIngredient > 0 && (
-        <div className="badge h-5 badge-ghost">{nbrIngredient} ingredients</div>
+        <p className="badge badge-ghost h-fit">{nbrIngredient} ingredients</p>
       )}
     </Button>
   );

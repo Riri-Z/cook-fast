@@ -3,6 +3,11 @@ import { Meal } from './types';
 import { extractMatchingProperty } from './utils';
 
 const API_URL = process.env.API_URL;
+/**
+ * property from api  : strIngredient*
+ */
+const INGREDIENT_STR = process.env.INGREDIENT_STR;
+const QUANTITY_STR = process.env.QUANTITY_STR;
 
 type Params = {
   recipes: Meal[];
@@ -34,7 +39,11 @@ export async function getRecipes(ingredients: string[]): Promise<Meal[]> {
   }
 
   const okResult = res
-    .filter((promised) => promised.status === 'fulfilled')
+    .filter(
+      // Type predicate to inform TS that is a PromiseFulfilledResult
+      (promised): promised is PromiseFulfilledResult<{ meals: Meal[] }> =>
+        promised.status === 'fulfilled' && promised.value.meals !== null
+    )
     .map((meal) => meal.value);
 
   if (okResult.length === 0) {
@@ -72,7 +81,8 @@ export async function formatRecipeData(
   // Return availaible meal from recipeWithMatch
   return recipeWithMatch
     .filter((recipe) => recipe.status === 'fulfilled')
-    .map((e) => e.value);
+    .map((e) => e.value)
+    .sort((a, b) => (b.match ?? 0) - (a.match ?? 0));
 }
 
 /**
@@ -81,7 +91,7 @@ export async function formatRecipeData(
  * @param ingredients
  * @returns
  */
-async function computeExtraData(meal: Meal, ingredients: string[]) {
+export async function computeExtraData(meal: Meal, ingredients: string[]) {
   const res = await fetch(
     'https://www.themealdb.com/api/json/v1/1/lookup.php?i=' + meal.idMeal
   );
@@ -96,15 +106,10 @@ async function computeExtraData(meal: Meal, ingredients: string[]) {
   if (!recipe) return meal;
 
   // Append full recipe to meal
-  meal.recipe = recipe;
-
-  /**
-   * property from api  : strIngredient*
-   */
-  const matchingIngredient = 'strIngredient';
+  meal.recipeDetail = recipe;
 
   // List ingredients from dish
-  const mealIngredients = extractMatchingProperty(recipe, matchingIngredient);
+  const mealIngredients = extractMatchingProperty(recipe, INGREDIENT_STR!);
 
   // Append ingredients to meal
   meal.ingredients = mealIngredients;
@@ -113,24 +118,28 @@ async function computeExtraData(meal: Meal, ingredients: string[]) {
   );
 
   let countUsedIngredient = 0;
-  ingredients.forEach(
-    (e) => formattedArrIngredientFromRecipe.includes(e) && countUsedIngredient++
-  );
+  const arrUserIngredientInRecipe = [];
+
+  for (const ingredient of ingredients) {
+    if (formattedArrIngredientFromRecipe.includes(ingredient)) {
+      countUsedIngredient++;
+      arrUserIngredientInRecipe.push(ingredient);
+    }
+  }
+
+  meal.userIngredientPresent = arrUserIngredientInRecipe;
 
   // Todo :  implement fuse.js for better matchig score ?
   meal.match =
     ingredients.length > 0
-      ? Math.round((countUsedIngredient / ingredients.length) * 100)
+      ? Math.round((countUsedIngredient / mealIngredients.length) * 100)
       : 0;
 
   // Append nbrMissingIngredients to meal
   meal.nbrMissingIngredients = mealIngredients.length - countUsedIngredient;
-
-  const matchQuantityStr = 'strMeasure';
-  const measures = extractMatchingProperty(recipe, matchQuantityStr);
-
-  // Append measures to meal
-  meal.measures = measures;
+  if (QUANTITY_STR) {
+    meal.measures = extractMatchingProperty(recipe, QUANTITY_STR);
+  }
 
   return meal;
 }

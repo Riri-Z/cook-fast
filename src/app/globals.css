@@ -6,28 +6,37 @@
 @plugin "daisyui/theme" {
   name: 'light';
   default: true;
-  color-scheme: light; /* color of browser-provided UI */
+  color-scheme: light;
 
-  --color-base-100: oklch(98% 0.02 250);
-  --color-base-200: oklch(96% 0.03 250);
-  --color-base-300: oklch(93% 0.03 250);
-  --color-base-content: oklch(18% 0.04 250);
+  --color-base-100: oklch(95% 0.015 85); /* fond très clair, légèrement chaud */
+  --color-base-200: oklch(90% 0.02 85); /* fond secondaire */
+  --color-base-300: oklch(85% 0.02 85);
+  --color-base-content: oklch(
+    20% 0.02 260
+  ); /* texte principal doux (gris foncé) */
 
-  --color-primary: oklch(65% 0.25 140);
-  --color-primary-content: oklch(98% 0.01 140);
-  --color-secondary: oklch(70% 0.24 60);
-  --color-secondary-content: oklch(20% 0.04 60);
-  --color-accent: oklch(65% 0.25 60);
-  --color-accent-content: oklch(98% 0.01 60);
-  --color-neutral: oklch(50% 0.03 260);
-  --color-neutral-content: oklch(98% 0.01 260);
-  --color-info: oklch(70% 0.2 210);
-  --color-info-content: oklch(98% 0.01 210);
-  --color-success: oklch(65% 0.25 140);
-  --color-success-content: oklch(98% 0.01 140);
-  --color-warning: oklch(80% 0.25 80);
-  --color-warning-content: oklch(20% 0.05 80);
-  --color-error: oklch(60% 0.3 25);
+  --color-primary: oklch(65% 0.25 60); /* orange chaud */
+  --color-primary-content: oklch(98% 0.01 90); /* texte très clair dessus */
+
+  --color-secondary: oklch(70% 0.15 300); /* violet-gris doux */
+  --color-secondary-content: oklch(10% 0.02 300);
+
+  --color-accent: oklch(78% 0.3 100); /* citron frais, accent */
+  --color-accent-content: oklch(20% 0.02 100);
+
+  --color-neutral: oklch(85% 0.01 250); /* fond neutre clair */
+  --color-neutral-content: oklch(25% 0.01 260); /* texte gris doux */
+
+  --color-info: oklch(70% 0.2 220);
+  --color-info-content: oklch(10% 0.02 220);
+
+  --color-success: oklch(60% 0.25 140); /* vert cuisine doux */
+  --color-success-content: oklch(10% 0.02 140);
+
+  --color-warning: oklch(75% 0.25 85); /* jaune miellé */
+  --color-warning-content: oklch(20% 0.05 85);
+
+  --color-error: oklch(55% 0.3 25); /* rouge gourmand */
   --color-error-content: oklch(98% 0.01 25);
 
   /* border radius */
@@ -35,15 +44,12 @@
   --radius-field: 0.25rem;
   --radius-box: 0.5rem;
 
-  /* base sizes */
   --size-selector: 0.25rem;
   --size-field: 0.25rem;
 
-  /* border size */
   --border: 1px;
 
-  /* effects */
-  --depth: 1;
+  --depth: 0;
   --noise: 0;
 }
 
@@ -53,25 +59,32 @@
   default: false;
   color-scheme: dark;
 
-  --color-base-100: oklch(15% 0.03 250);
-  --color-base-200: oklch(20% 0.03 250);
-  --color-base-300: oklch(25% 0.03 250);
-  --color-base-content: oklch(90% 0.02 250);
+  --color-base-100: oklch(20% 0.02 280); /* fond presque noir mais doux */
+  --color-base-200: oklch(25% 0.02 280);
+  --color-base-300: oklch(30% 0.02 280);
+  --color-base-content: oklch(95% 0.01 270); /* texte très clair */
 
-  --color-primary: oklch(55% 0.25 140);
-  --color-primary-content: oklch(10% 0.02 140);
-  --color-secondary: oklch(60% 0.25 60);
-  --color-secondary-content: oklch(10% 0.02 60);
-  --color-accent: oklch(60% 0.25 60);
-  --color-accent-content: oklch(10% 0.02 60);
-  --color-neutral: oklch(35% 0.03 260);
+  --color-primary: oklch(65% 0.25 60); /* orange doux, chaleureux */
+  --color-primary-content: oklch(12% 0.02 60);
+
+  --color-secondary: oklch(55% 0.15 300); /* violet-gris très subtil */
+  --color-secondary-content: oklch(90% 0.01 300);
+
+  --color-accent: oklch(80% 0.3 100); /* citron vert vif pour détails */
+  --color-accent-content: oklch(20% 0.02 100);
+
+  --color-neutral: oklch(30% 0.02 260);
   --color-neutral-content: oklch(90% 0.01 260);
-  --color-info: oklch(65% 0.2 210);
-  --color-info-content: oklch(12% 0.02 210);
-  --color-success: oklch(55% 0.25 140);
-  --color-success-content: oklch(10% 0.02 140);
-  --color-warning: oklch(70% 0.25 80);
-  --color-warning-content: oklch(15% 0.05 80);
+
+  --color-info: oklch(70% 0.2 220);
+  --color-info-content: oklch(15% 0.02 220);
+
+  --color-success: oklch(60% 0.25 140); /* vert clair pour les badges */
+  --color-success-content: oklch(15% 0.02 140);
+
+  --color-warning: oklch(75% 0.25 85);
+  --color-warning-content: oklch(20% 0.05 85);
+
   --color-error: oklch(55% 0.3 25);
   --color-error-content: oklch(10% 0.02 25);
 
@@ -80,18 +93,33 @@
   --radius-field: 0.25rem;
   --radius-box: 0.5rem;
 
-  /* base sizes */
   --size-selector: 0.25rem;
   --size-field: 0.25rem;
 
-  /* border size */
   --border: 1px;
 
-  /* effects */
   --depth: 1;
   --noise: 0;
 }
 
 :root {
-  --header-height: 10dvh;
+  --header-height: 4rem;
+  scrollbar-color: white;
+}
+
+@layer utilities {
+  /* animation fadeIn*/
+  .fade-in-card {
+    opacity: 0;
+    animation: fadeIn 1s forwards;
+  }
+
+  @keyframes fadeIn {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
 }

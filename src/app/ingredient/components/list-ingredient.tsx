@@ -12,7 +12,7 @@ export function ListIngredient({
   const { deleteIngredient } = useFood();
 
   return (
-    <div className="flex flex-col gap-5">
+    <div className="flex flex-col gap-2">
       <section className="flex w-full justify-between">
         <h1 className="font-bold">Your ingredients :</h1>
         <button className="cursor-pointer" onClick={clearAll}>

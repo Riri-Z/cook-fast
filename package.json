@@ -3,11 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbopack --inspect",
+    "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "lint:fix": "next lint--fix",
+    "lint:fix": "next lint --fix",
     "format": "prettier --check --ignore-path .gitignore .",
     "format:fix": "prettier --write --ignore-path .gitignore ."
   },
@@ -15,6 +15,7 @@
     "@heroicons/react": "^2.2.0",
     "clsx": "^2.1.1",
     "lucide-react": "^0.509.0",
+    "motion": "^12.15.0",
     "next": "15.3.1",
     "next-themes": "^0.4.6",
     "prettier-plugin-organize-imports": "^4.1.0",

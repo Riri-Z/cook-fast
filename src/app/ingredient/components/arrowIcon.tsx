@@ -21,9 +21,12 @@ export function ArrowIcon({
 
   return (
     <button
-      className={clsx('rounded-2xl bg-orange-300', {
-        'opacity-0': disabled,
-      })}
+      className={clsx(
+        'btn btn-circle bg-base-100 text-primary hover:bg-base-200 shadow-lg',
+        {
+          'opacity-0': disabled,
+        }
+      )}
       onClick={handler}
     >
       <ArrowIcon />

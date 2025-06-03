@@ -9,12 +9,14 @@ import SearchCard from './components/search-card';
 export default function Page() {
   const { recipes, hasSearched } = useFood();
   const widthWindow = useWidth();
+
+  const isDesktop = widthWindow > BREAK_POINTS;
   return (
     <div
       className={clsx(
-        "flex h-screen flex-col items-center overflow-auto bg-[url('/food.jpg')] bg-cover p-4 md:p-0",
+        "flex h-[calc(100vh-var(--header-height))] flex-col items-center bg-[url('/food.jpg')] bg-cover bg-center bg-no-repeat",
         {
-          'overflow-hidden': widthWindow > BREAK_POINTS,
+          'overflow-hidden': isDesktop,
         }
       )}
     >

@@ -26,6 +26,7 @@ export default function FetchRecipes() {
       }
 
       const data = await res.json();
+      console.log('data', data);
       updateRecipes(data);
       updateHasSearched(true);
     } catch (error) {

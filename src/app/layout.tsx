@@ -19,8 +19,10 @@ export default function RootLayout({
       <body>
         <FoodProvider>
           <ThemeProvider>
-            <Header />
-            {children}
+            <div className="flex max-h-full max-w-screen flex-col">
+              <Header />
+              {children}
+            </div>
           </ThemeProvider>
         </FoodProvider>
       </body>

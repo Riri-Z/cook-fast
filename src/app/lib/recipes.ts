@@ -3,6 +3,11 @@ import { Meal } from './types';
 import { extractMatchingProperty } from './utils';
 
 const API_URL = process.env.API_URL;
+/**
+ * property from api  : strIngredient*
+ */
+const INGREDIENT_STR = process.env.INGREDIENT_STR;
+const QUANTITY_STR = process.env.QUANTITY_STR;
 
 type Params = {
   recipes: Meal[];
@@ -45,18 +50,6 @@ export async function getRecipes(ingredients: string[]): Promise<Meal[]> {
     return [];
   }
 
-  /* 
-  
-    cas multi ingredients : 
-       tests, eggs , tomatos  
-
-       pour chaque ingredients j'ai des recettes, 
-       croise les resultats pour afficher en premier les recettes qui inclus le max d'ingredients
-       ou juste afficher par recettes les ingredients manquants que l'user a renseigner
-  
-  
-  */
-
   const errorResult = res
     .filter((promised) => promised.status === 'rejected')
     .map((er) => er.reason);
@@ -98,7 +91,7 @@ export async function formatRecipeData(
  * @param ingredients
  * @returns
  */
-async function computeExtraData(meal: Meal, ingredients: string[]) {
+export async function computeExtraData(meal: Meal, ingredients: string[]) {
   const res = await fetch(
     'https://www.themealdb.com/api/json/v1/1/lookup.php?i=' + meal.idMeal
   );
@@ -115,13 +108,8 @@ async function computeExtraData(meal: Meal, ingredients: string[]) {
   // Append full recipe to meal
   meal.recipeDetail = recipe;
 
-  /**
-   * property from api  : strIngredient*
-   */
-  const matchingIngredient = 'strIngredient';
-
   // List ingredients from dish
-  const mealIngredients = extractMatchingProperty(recipe, matchingIngredient);
+  const mealIngredients = extractMatchingProperty(recipe, INGREDIENT_STR!);
 
   // Append ingredients to meal
   meal.ingredients = mealIngredients;
@@ -149,12 +137,9 @@ async function computeExtraData(meal: Meal, ingredients: string[]) {
 
   // Append nbrMissingIngredients to meal
   meal.nbrMissingIngredients = mealIngredients.length - countUsedIngredient;
-
-  const matchQuantityStr = 'strMeasure';
-  const measures = extractMatchingProperty(recipe, matchQuantityStr);
-
-  // Append measures to meal
-  meal.measures = measures;
+  if (QUANTITY_STR) {
+    meal.measures = extractMatchingProperty(recipe, QUANTITY_STR);
+  }
 
   return meal;
 }

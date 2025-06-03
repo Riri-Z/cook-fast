@@ -1,24 +1,33 @@
 'use client';
 
 import { Meal } from '@/app/lib/types';
+import { redirect } from 'next/navigation';
 import { Button } from '../button';
 import TagsRecipe from './tags-recipe';
+import { useMemo } from 'react';
 
 export function CardRecipe({ recipe }: Readonly<{ recipe: Meal }>) {
   const {
     recipeDetail,
     userIngredientPresent,
     nbrMissingIngredients,
+    ingredients,
     strMealThumb,
     strMeal,
     match,
   } = recipe;
-
   // Transform string tags to array of tags
   const tags = recipeDetail?.strTags?.split(',') ?? [];
+  const formatIngredientsName = useMemo(() => {
+    return ingredients?.join(', ').toLowerCase();
+  }, [ingredients]);
+
+  const handleRedirectToRecipe = () => {
+    return redirect('/recipe/' + recipe.idMeal);
+  };
 
   return (
-    <div className="card bg-base-100 w-full rounded-4xl transition-transform duration-300 ease-out hover:translate-y-[-4px] hover:cursor-pointer sm:w-[280px]">
+    <div className="card bg-base-100 w-full cursor-pointer rounded-4xl transition-transform duration-300 ease-out hover:translate-y-[-4px] sm:w-[280px]">
       <picture>
         <img
           src={strMealThumb}
@@ -28,12 +37,12 @@ export function CardRecipe({ recipe }: Readonly<{ recipe: Meal }>) {
       </picture>
 
       <div className="card-body flex p-4 shadow-none">
-        <section className="flex items-center gap-2 align-middle">
-          <h1 className="card-title my-2 h-4 leading-none">{strMeal}</h1>
+        <section className="flex items-center justify-between gap-2">
+          <h1 className="card-title my-2 h-fit truncate text-lg font-bold">
+            {strMeal}
+          </h1>
           {recipeDetail?.strCategory && (
-            <div className="badge badge-info align-middle">
-              {recipeDetail.strCategory}
-            </div>
+            <div className="badge badge-info">{recipeDetail.strCategory}</div>
           )}
         </section>
 
@@ -59,18 +68,23 @@ export function CardRecipe({ recipe }: Readonly<{ recipe: Meal }>) {
         </section>
 
         <section>
-          <p className="text-error font-semibold">
-            ❌ Missing:{' '}
-            <span className="font-bold">
-              {nbrMissingIngredients} ingredients
-            </span>
-          </p>
+          <div className="tooltip" data-tip={formatIngredientsName}>
+            <p className="text-error font-semibold">
+              ❌ Missing :{' '}
+              <span className="font-bold">
+                {nbrMissingIngredients} ingredients
+              </span>
+            </p>
+          </div>
         </section>
-        <section className="flex flex-col gap-2">
+        <section className="flex max-w-full flex-col gap-2">
           <h1>🏷️ Tags</h1>
           {tags && <TagsRecipe tags={tags} variant="badge-secondary" />}
         </section>
-        <Button className="btn-success mt-auto w-full align-bottom">
+        <Button
+          className="btn-success mt-auto w-full align-bottom"
+          onClick={handleRedirectToRecipe}
+        >
           <p>View full recipe</p>
         </Button>
       </div>

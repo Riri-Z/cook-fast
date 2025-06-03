@@ -1,3 +1,4 @@
+'use client';
 import clsx from 'clsx';
 import { ChevronLeftCircle, ChevronRightCircle } from 'lucide-react'; // ou autre icône
 import { useState, useRef, useEffect } from 'react';
@@ -14,8 +15,10 @@ export default function TagsRecipe({
   variant = 'badge-success',
 }: Readonly<TagsRecipeProps>) {
   const scrollRef = useRef<HTMLDivElement>(null);
+
   const [atStart, setAtStart] = useState<null | boolean>(true);
   const [atEnd, setAtEnd] = useState<null | boolean>(false);
+
   // Handle scroll behaviour
   const scroll = (direction: 'left' | 'right') => {
     if (!scrollRef.current) return;
@@ -29,7 +32,6 @@ export default function TagsRecipe({
     const el = scrollRef.current;
     if (el) {
       setAtStart(el.scrollLeft <= 1);
-
       setAtEnd(el.scrollLeft + el.clientWidth >= el.scrollWidth - 1);
     }
   };

@@ -89,6 +89,7 @@ export interface RecipeDetail {
 export type Meal = {
   strMeal: string;
   strMealThumb: string;
+  strInstructions: string;
   idMeal: string;
   recipeDetail?: RecipeDetail | null;
   ingredients?: string[];
@@ -96,4 +97,5 @@ export type Meal = {
   match?: number;
   nbrMissingIngredients?: number;
   userIngredientPresent?: string[];
+  strYoutube: string;
 };

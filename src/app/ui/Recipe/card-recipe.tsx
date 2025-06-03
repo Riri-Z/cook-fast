@@ -59,14 +59,6 @@ export function CardRecipe({ recipe }: Readonly<{ recipe: Meal }>) {
           aria-label={`${match} % matching ingredients`}
         />
 
-        <section className="flex flex-col gap-2">
-          <p className="text-success font-semibold">You already have :</p>
-
-          {userIngredientPresent && userIngredientPresent.length > 0 && (
-            <TagsRecipe tags={userIngredientPresent} />
-          )}
-        </section>
-
         <section>
           <div className="tooltip" data-tip={formatIngredientsName}>
             <p className="text-error font-semibold">

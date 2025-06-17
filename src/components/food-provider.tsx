@@ -20,6 +20,8 @@ type Context = {
   handleClearIngredients: () => void;
   updateLoading: (value: boolean) => void;
   updateHasSearched: (value: boolean) => void;
+  error: boolean;
+  updateError: (value: boolean) => void;
 };
 
 const FoodContext = createContext<Context>({} as Context);
@@ -29,6 +31,7 @@ export const FoodProvider = ({ children }: { children: React.ReactNode }) => {
   const [recipes, setRecipes] = useState<Meal[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [hasSearched, setHasSearched] = useState<boolean>(false);
+  const [error, setError] = useState<boolean>(false);
 
   const addIngredient = useCallback((ingredient: string) => {
     if (ingredient == '') return;
@@ -44,6 +47,9 @@ export const FoodProvider = ({ children }: { children: React.ReactNode }) => {
     setListIngredient([]);
   };
 
+  const updateError = useCallback((value: boolean) => {
+    setError(value);
+  }, []);
   const updateRecipes = useCallback((recipes: Meal[]) => {
     setRecipes(recipes);
   }, []);
@@ -67,6 +73,8 @@ export const FoodProvider = ({ children }: { children: React.ReactNode }) => {
       handleClearIngredients,
       loading,
       hasSearched,
+      error,
+      updateError,
       updateLoading,
       updateHasSearched,
     };
@@ -75,6 +83,8 @@ export const FoodProvider = ({ children }: { children: React.ReactNode }) => {
     recipes,
     updateRecipes,
     addIngredient,
+    error,
+    updateError,
     deleteIngredient,
     hasSearched,
     loading,

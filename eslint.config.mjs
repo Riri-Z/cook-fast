@@ -14,6 +14,9 @@ const eslintConfig = [
   ...compat.extends('next/core-web-vitals', 'next/typescript', 'prettier'),
   {
     plugins: { stylistic },
+    rules: {
+      'newline-per-chained-call': ['error', { ignoreChainWithDepth: 2 }],
+    },
   },
 ];
 

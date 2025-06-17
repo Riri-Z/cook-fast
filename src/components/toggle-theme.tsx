@@ -34,9 +34,9 @@ export default function ToggleTheme() {
         onChange={handleToggleTheme}
       />
 
-      <Sun className="swap-on" color="black" />
+      <Sun className="swap-on" color="white" />
 
-      <Moon className="swap-off" color="orange" />
+      <Moon className="swap-off" color="white" />
     </label>
   );
 }

@@ -25,8 +25,6 @@ export default async function Page({
   const recipe = await data.json();
   const selectedRecipe: Meal & RecipeDetail = recipe?.meals?.[0];
 
-  console.log('selectedRecipe', selectedRecipe);
-
   if (!selectedRecipe) {
     return (
       <div className="flex h-screen w-full flex-col items-center justify-center gap-4 align-middle">
@@ -71,7 +69,7 @@ export default async function Page({
       {/* Ingredient */}
       {ingredients && <IngredientList listIngredients={ingredients} />}
 
-      {selectedRecipe.strInstructions && (
+      {selectedRecipe?.strInstructions !== '' && (
         <Instruction
           instructions={selectedRecipe.strInstructions}
           video={formatedStrVideo}
@@ -80,7 +78,7 @@ export default async function Page({
 
       {/* Action */}
       <Link
-        className="bg-accent transform: flex h-8 w-26 items-center justify-center rounded-3xl font-bold text-white shadow-2xl hover:scale-105"
+        className="bg-accent transform: flex h-10 w-32 items-center justify-center rounded-3xl font-bold text-white shadow-2xl hover:scale-105"
         href="/ingredient"
       >
         <p>Back</p>

@@ -3,6 +3,8 @@ import Header from '@/components/header';
 import type { Metadata } from 'next';
 import { ThemeProvider } from 'next-themes';
 import './globals.css';
+import { Suspense } from 'react';
+import Loading from './loading';
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -17,14 +19,16 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body>
-        <FoodProvider>
-          <ThemeProvider>
-            <div className="flex max-h-full max-w-screen flex-col">
+        <ThemeProvider>
+          <FoodProvider>
+            <div className="flex min-h-screen flex-col">
               <Header />
-              {children}
+              <main className="flex-2 overflow-y-auto">
+                <Suspense fallback={<Loading />}>{children}</Suspense>
+              </main>
             </div>
-          </ThemeProvider>
-        </FoodProvider>
+          </FoodProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

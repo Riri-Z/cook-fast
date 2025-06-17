@@ -22,9 +22,9 @@ export function Instruction({
         <iframe
           title="test"
           className="p-4"
-          src={'https://www.youtube.com/embed/voE-MBJqBVk'}
+          src={video}
           allowFullScreen
-          height={300}
+          height={400}
         />
       )}
     </div>

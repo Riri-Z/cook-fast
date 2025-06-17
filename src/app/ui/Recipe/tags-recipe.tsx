@@ -1,6 +1,6 @@
 'use client';
 import clsx from 'clsx';
-import { ChevronLeftCircle, ChevronRightCircle } from 'lucide-react'; // ou autre icône
+import { ChevronLeftCircle, ChevronRightCircle } from 'lucide-react';
 import { useState, useRef, useEffect } from 'react';
 
 type TagsRecipeProps = {

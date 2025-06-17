@@ -27,18 +27,22 @@ export function CardRecipe({ recipe }: Readonly<{ recipe: Meal }>) {
   };
 
   return (
-    <div className="card bg-base-100 w-full cursor-pointer rounded-4xl transition-transform duration-300 ease-out hover:translate-y-[-4px] sm:w-[280px]">
-      <picture>
+    <div
+      data-testid="card-recipe"
+      className="card bg-base-100 w-full cursor-pointer rounded-4xl transition-transform duration-300 ease-out hover:translate-y-[-4px] sm:w-[200px] md:w-[280px]"
+    >
+      <picture className="relative flex justify-center rounded-4xl sm:h-56">
         <img
           src={strMealThumb}
           alt={strMeal}
-          className="h-52 w-full rounded-4xl bg-center"
+          loading="lazy"
+          className="aspect-auto rounded-4xl p-2"
         />
       </picture>
 
-      <div className="card-body flex p-4 shadow-none">
+      <div className="card-body flex px-4 py-2 shadow-none">
         <section className="flex items-center justify-between gap-2">
-          <h1 className="card-title my-2 h-fit truncate text-lg font-bold">
+          <h1 className="card-title h-fit truncate text-lg font-bold">
             {strMeal}
           </h1>
           {recipeDetail?.strCategory && (
@@ -47,10 +51,12 @@ export function CardRecipe({ recipe }: Readonly<{ recipe: Meal }>) {
         </section>
 
         {userIngredientPresent && nbrMissingIngredients && (
-          <p className="font-semibold">
-            {userIngredientPresent?.length} matching ingredient out of{' '}
-            {userIngredientPresent.length + nbrMissingIngredients} ({match} %)
-          </p>
+          <div className="tooltip" data-tip={formatIngredientsName}>
+            <p className="font-semibold">
+              {userIngredientPresent?.length} matching ingredient out of{' '}
+              {userIngredientPresent.length + nbrMissingIngredients} ({match} %)
+            </p>
+          </div>
         )}
         <progress
           className="progress progress-warning"
@@ -59,25 +65,15 @@ export function CardRecipe({ recipe }: Readonly<{ recipe: Meal }>) {
           aria-label={`${match} % matching ingredients`}
         />
 
-        <section>
-          <div className="tooltip" data-tip={formatIngredientsName}>
-            <p className="text-error font-semibold">
-              ❌ Missing :{' '}
-              <span className="font-bold">
-                {nbrMissingIngredients} ingredients
-              </span>
-            </p>
-          </div>
-        </section>
-        <section className="flex max-w-full flex-col gap-2">
+        <section className="mb-2 flex flex-col gap-2">
           <h1>🏷️ Tags</h1>
           {tags && <TagsRecipe tags={tags} variant="badge-secondary" />}
         </section>
         <Button
-          className="btn-success mt-auto w-full align-bottom"
+          className="btn-success w-fullself-center mb-2 rounded-4xl sm:h-8"
           onClick={handleRedirectToRecipe}
         >
-          <p>View full recipe</p>
+          <p className="text-white">View full recipe</p>
         </Button>
       </div>
     </div>

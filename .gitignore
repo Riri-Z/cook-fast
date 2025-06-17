@@ -43,3 +43,6 @@ next-env.d.ts
 # config ide
 .vscode
 note
+
+# tests
+test-results

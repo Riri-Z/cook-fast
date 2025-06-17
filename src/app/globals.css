@@ -2,6 +2,21 @@
 @plugin "daisyui" {
 }
 
+:root {
+  --header-height: 4rem;
+  scrollbar-color: white;
+}
+body {
+  background: var(--fallback, #181818);
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
 /* Light theme */
 @plugin "daisyui/theme" {
   name: 'light';
@@ -100,11 +115,6 @@
 
   --depth: 1;
   --noise: 0;
-}
-
-:root {
-  --header-height: 4rem;
-  scrollbar-color: white;
 }
 
 @layer utilities {

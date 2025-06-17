@@ -4,9 +4,9 @@ type Ingredient = {
 };
 export function IngredientList({
   listIngredients,
-}: {
+}: Readonly<{
   listIngredients: Ingredient[];
-}) {
+}>) {
   return (
     <div className="card card-lg bg-base-200 w-full max-w-2xl shadow-xl">
       <div className="card-body">

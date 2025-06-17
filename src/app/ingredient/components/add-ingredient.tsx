@@ -32,7 +32,7 @@ export function AddIngredient() {
         <input
           className="input w-full"
           name="ingredient"
-          placeholder="Type an ingredient..."
+          placeholder="Eg : Eggs, beef, avocado..."
           value={newIngredient}
           onKeyDown={EnterDown}
           onChange={(e) => setNewIngredient(e.target.value)}

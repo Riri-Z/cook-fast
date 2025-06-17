@@ -9,6 +9,7 @@ type Props = {
 export function TagIngredient({ value, action }: Readonly<Props>) {
   return (
     <Button
+      data-testid="tag-ingredient"
       className="bg-accent flex h-fit w-fit justify-around rounded-4xl py-1 text-white"
       onClick={() => action(value)}
     >

@@ -1,15 +1,8 @@
 import { ChefHat, Recycle, Salad } from 'lucide-react';
-import { useRouter } from 'next/navigation';
-import { Button } from '../button';
 import FeatureCard from './feature-card';
+import Link from 'next/link';
 
 export default function FeatureContainer() {
-  const router = useRouter();
-
-  const handleNavigateHome = () => {
-    return router.push('/ingredient');
-  };
-
   const CONTENT = [
     {
       title: 'Add Ingredients',
@@ -33,7 +26,7 @@ export default function FeatureContainer() {
 
   return (
     <main className="m-auto flex flex-1 flex-col items-center gap-10">
-      <h1 className="text-4xl font-bold text-white">How It Works</h1>
+      <h3 className="text-4xl font-bold text-white">How It Works</h3>
       <div className="flex flex-wrap justify-center gap-10">
         {CONTENT.map((e, i) => {
           return (
@@ -48,9 +41,12 @@ export default function FeatureContainer() {
           );
         })}
       </div>
-      <Button onClick={handleNavigateHome} className="btn-secondary text-white">
+      <Link
+        className="btn btn-secondary mt-3 flex items-center text-white"
+        href="/ingredient"
+      >
         Get started
-      </Button>
+      </Link>
     </main>
   );
 }
